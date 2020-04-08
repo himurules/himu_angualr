@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "himu-angular"
+    }
+  },
+  "defaultProject": "himu-angular",
+  "cli": {
+    "analytics": false
+  }
 }
