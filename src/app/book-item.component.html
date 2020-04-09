@@ -1,0 +1,25 @@
+<!-- list group item-->
+<li class="list-group-item">
+  <!-- Custom content-->
+  <div class="media align-items-lg-center flex-column flex-lg-row p-3">
+    <div class="media-body order-2 order-lg-1">
+      <h5 class="mt-0 font-weight-bold mb-2">{{ bookItem.title | uppercase}}</h5>
+      <p class="font-italic text-muted mb-0 small">
+        {{ bookItem.description }}
+      </p>
+      <div class="d-flex align-items-center justify-content-between mt-1">
+        <h6 class="font-weight-bold my-2">{{ bookItem.price | currency:'AUD' }}</h6>
+        <span class="font-weight-bold my-2">{{ bookItem.category }}</span>
+        <!-- Use an element to toggle between a like/dislike icon -->
+        <i [blRead]="bookItem.isRead" class="fa"></i>
+        <ul class="list-inline small">
+            <li class="list-inline-item m-0" *ngFor="let loop of numberToArray(bookItem.rating)"><i class="fa fa-star text-success"></i></li>
+        </ul>
+      </div>
+      <div>
+        <a href="#" (click)="onRemove()" class=" btn btn-danger">Remove From List</a>
+      </div>
+    </div>
+    <img src="{{ bookItem.imgSrc }}" alt="{{ bookItem.title }}" width="200" class="ml-lg-5 order-1 order-lg-2">
+  </div> <!-- End -->
+</li> <!-- End -->
