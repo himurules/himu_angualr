@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import {FormControl, FormGroup, Validators, FormBuilder} from '@angular/forms';
 import { BookItemService } from './book-item.service';
+import { Router } from '@angular/router';
 import { lookupListToken } from './dataprovider';
 
 @Component({
@@ -13,7 +14,8 @@ export class BookItemFormComponent implements OnInit{
   constructor(
     private formBuilder: FormBuilder,
     private bookItemService: BookItemService,
-    @Inject(lookupListToken) public lookupLists
+    @Inject(lookupListToken) public lookupLists,
+    private router: Router
   ) {
   }
   ngOnInit(): void {
@@ -55,7 +57,9 @@ export class BookItemFormComponent implements OnInit{
   }
 
   onSubmit(bookItem){
-    console.log(bookItem);
-    this.bookItemService.add(bookItem);
+    this.bookItemService.add(bookItem)
+      .subscribe( () => {
+        this.router.navigate(['/', bookItem.category]);
+      });
   }
 }

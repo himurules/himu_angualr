@@ -1,10 +1,12 @@
+<!-- List group-->
+<ul class="list-group shadow">
 <section>
   <header>
-    <div [outerHTML]=" bookItems | categoryList">
-    </div>
+    <div *ngIf="bookItems">{{ bookItems | categoryList }}</div>
   </header>
   <app-book-item *ngFor="let bookItem of bookItems"
     (remove)="onBookItemRemove($event)"
      [bookItem]="bookItem"
       [ngClass]="{}"></app-book-item>
 </section>
+</ul>

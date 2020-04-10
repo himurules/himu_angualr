@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {BookItemService} from './book-item.service';
+import { ActivatedRoute} from '@angular/router';
+import { BookItemService, BookItem } from './book-item.service';
 
 @Component({
   selector: 'app-book-item-list',
@@ -7,14 +8,33 @@ import {BookItemService} from './book-item.service';
   styleUrls: ['./book-item-list.component.css']
 })
 export class BookItemListComponent implements OnInit{
-  bookItems = null;
-  constructor(private bookItemService: BookItemService ) {
+  category = '';
+  bookItems: BookItem[];
+  constructor(private bookItemService: BookItemService, private activatedRoute: ActivatedRoute ) {
   }
   ngOnInit(): void {
-    this.bookItems = this.bookItemService.get();
+    this.activatedRoute.paramMap
+      .subscribe(paramMap => {
+        let category = paramMap.get('category');
+        if (category.toLowerCase() === 'all') {
+          category = '';
+        }
+        this.getBookItems(category);
+      });
   }
 
   onBookItemRemove(bookItem){
-    this.bookItemService.delete(bookItem);
+    this.bookItemService.delete(bookItem)
+      .subscribe(() => {
+        this.getBookItems(this.category);
+      });
+  }
+
+  getBookItems(category){
+    this.category = category;
+    this.bookItemService.get(category)
+      .subscribe(bookItems => {
+        this.bookItems = bookItems;
+      });
   }
 }

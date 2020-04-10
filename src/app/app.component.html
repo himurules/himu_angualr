@@ -5,17 +5,36 @@
       <p>Keep a track of all the cool books to read</p>
     </div>
   </div>
-  <div class="row">
+  <div class="row text-center text-white">
+    <div class="col-lg-8 mx-auto ">
+      <a routerLink="/" class="btn btn-danger mx-3" role="button">
+        Home
+      </a>
+      <a routerLink="/add" class="btn btn-danger mx-3" role="button">
+        Add A Book
+      </a>
+    </div>
+  </div>
+  <div class="row text-left text-white mt-4">
     <div class="col-lg-8 mx-auto">
-      <bl-book-item-form></bl-book-item-form>
+      Filter By Categories
+      <a routerLink="/all" class="mx-3 text-white">
+        All
+      </a>
+      <a routerLink="/Fiction" class="mx-3  text-white">
+        Fiction
+      </a>
+      <a routerLink="/Drama" class="mx-3  text-white">
+        Drama
+      </a>
+      <a routerLink="/Science" class="mx-3  text-white">
+        Science
+      </a>
     </div>
   </div>
   <div class="row">
     <div class="col-lg-8 mx-auto">
-      <!-- List group-->
-      <ul class="list-group shadow">
-        <app-book-item-list></app-book-item-list>
-      </ul> <!-- End -->
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>
