@@ -1,0 +1,64 @@
+<!-- Default form Book Item -->
+<form
+  [formGroup]="form"
+  (ngSubmit)="onSubmit(form.value)"
+  class="text-center border border-light p-5" action="#!">
+
+  <p class="h4 mb-4 text-white">Add a book item</p>
+
+  <!-- Book Title -->
+  <input type="text" id="title" formControlName="title" aria-describedby="defaultTitleBlock" name="title" class="form-control mb-4" placeholder="Title" />
+  <div *ngIf="form.get('title').hasError('pattern')" class="error">
+    Title has Invalid Characters
+  </div>
+  <small id="defaultTitleBlock" class="form-text text-white mb-4">
+    Please provide new book title (req*)
+  </small>
+
+  <!-- Book Description -->
+  <textarea name="description" formControlName="description" aria-describedby="defaultDescriptionBlock" id="description" class="form-control mb-4"></textarea>
+  <small id="defaultDescriptionBlock" class="form-text text-white mb-4">
+    Please provide new book description (req*)
+  </small>
+
+  <!-- Price -->
+  <input type="number" formControlName="price" aria-describedby="defaultPriceBlock" id="price" name="price" class="form-control mb-4" placeholder="Price">
+  <small id="defaultPriceBlock" class="form-text text-white mb-4">
+    Please provide new book price (req*)
+  </small>
+
+  <!-- Img source -->
+  <input type="text" id="imgSrc" formControlName="imgSrc" name="imgSrc" class="form-control mb-4" placeholder="Image source url" aria-describedby="defaultImgSrc">
+  <div *ngIf="form.get('imgSrc').errors as imgError" class="error">
+    Please provide a valid URL. {{ imgError.message }}
+  </div>
+  <small id="defaultImgSrc" class="form-text text-white mb-4">
+    Please provide the source for the image eg.(http://pathtoimage) (req*)
+  </small>
+
+  <!-- Category -->
+  <select class="form-control mb-4" formControlName="category" name="category" id="category" aria-describedby="defaultCategory">
+    <option *ngFor="let category of lookupLists.categories" [value]="category">{{ category }}</option>
+  </select>
+  <small id="defaultCategory" class="form-text text-white mb-4">
+    Please choose the book category
+  </small>
+
+  <!-- Rating -->
+  <select class="form-control mb-4" formControlName="rating" name="rating" id="rating" aria-describedby="defaultRating">
+    <option *ngFor="let rating of lookupLists.ratings | keyvalue" [value]="rating.key">{{ rating.value }}</option>
+  </select>
+  <small id="defaultRating" class="form-text text-white mb-4">
+    Please choose the book category
+  </small>
+
+  <!-- Is Read -->
+  <div class="custom-control custom-checkbox">
+    <input type="checkbox" value="read" formControlName="isRead" class="custom-control-input" aria-describedby="defaultIsRead" name="isRead" id="isRead">
+    <label class="custom-control-label text-white" for="isRead">Have you Read It?</label>
+  </div>
+
+  <!-- Sign up button -->
+  <button class="btn btn-info my-4 btn-block" type="submit" [disabled]="!form.valid">Add Book</button>
+</form>
+<!-- Default form Book Item -->
