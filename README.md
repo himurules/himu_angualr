@@ -1,5 +1,7 @@
 # HimuAngular
 
+This is a sample angular application to maintain a read list for books to be read.
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.0.
 
 ## Development server
