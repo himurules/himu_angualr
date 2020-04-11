@@ -1,25 +1,30 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Input } from '@angular/core';
 import {FormControl, FormGroup, Validators, FormBuilder} from '@angular/forms';
-import { BookItemService } from './book-item.service';
-import { Router } from '@angular/router';
-import { lookupListToken } from './dataprovider';
+import {BookItem, BookItemService} from '../book-item.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { lookupListToken } from '../dataprovider';
 
 @Component({
   selector: 'bl-book-item-form',
   templateUrl: './book-item-form.component.html',
   styleUrls: ['./book-item-form.component.css']
 })
+
 export class BookItemFormComponent implements OnInit{
   form: FormGroup;
+  action = null;
   constructor(
     private formBuilder: FormBuilder,
     private bookItemService: BookItemService,
     @Inject(lookupListToken) public lookupLists,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {
   }
   ngOnInit(): void {
+    this.action = 'submit';
     this.form = this.formBuilder.group({
+      id: this.formBuilder.control(''),
       title: this.formBuilder.control('', Validators.compose(
         [
             Validators.required,
@@ -35,6 +40,14 @@ export class BookItemFormComponent implements OnInit{
       isRead: this.formBuilder.control('false'),
       imgSrc: this.formBuilder.control('', this.urlValidator),
       rating: this.formBuilder.control(5)
+    });
+
+    this.activatedRoute.paramMap.subscribe(params => {
+      const bookId = +params.get('id');
+      if (bookId) {
+        this.action = 'update';
+        this.getBook(bookId);
+      }
     });
   }
 
@@ -56,10 +69,29 @@ export class BookItemFormComponent implements OnInit{
        }
   }
 
-  onSubmit(bookItem){
-    this.bookItemService.add(bookItem)
-      .subscribe( () => {
-        this.router.navigate(['/', bookItem.category]);
-      });
+  onSubmit(bookItem, action){
+    if(action === 'update'){
+      this.bookItemService.edit(bookItem)
+        .subscribe(() => {
+          this.router.navigate(['/', bookItem.category]);
+        });
+    } else {
+      this.bookItemService.add(bookItem)
+        .subscribe(() => {
+          this.router.navigate(['/', bookItem.category]);
+        });
+    }
+  }
+
+  getBook(id: Number) {
+    this.bookItemService.getBook(id)
+      .subscribe(
+        (book: BookItem) => this.editBook(book),
+        (err: any) => console.log(err)
+      );
+  }
+
+  editBook(book: BookItem) {
+    this.form.patchValue(book);
   }
 }

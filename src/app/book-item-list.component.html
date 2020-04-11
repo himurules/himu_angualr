@@ -1,12 +1,47 @@
+<div class="row text-left text-white mt-4">
+  <div class="col-lg-8 mx-auto text-center">
+    Filter By:
+    <a routerLink="/all" class="mx-3 text-white">
+      All
+    </a>
+    <a routerLink="/Fiction" class="mx-3  text-white">
+      Fiction
+    </a>
+    <a routerLink="/Drama" class="mx-3  text-white">
+      Drama
+    </a>
+    <a routerLink="/Science" class="mx-3  text-white">
+      Science
+    </a>
+  </div>
+</div>
 <!-- List group-->
 <ul class="list-group shadow">
 <section>
   <header>
-    <div *ngIf="bookItems">{{ bookItems | categoryList }}</div>
+    <bl-category-list
+      *ngIf="bookItems"
+      [categories]="bookItems | categoryList" >
+    </bl-category-list>
   </header>
+  <div *ngIf="bookItems.length > 0">
   <app-book-item *ngFor="let bookItem of bookItems"
     (remove)="onBookItemRemove($event)"
+    (edit)="onBookItemEdit($event)"
      [bookItem]="bookItem"
       [ngClass]="{}"></app-book-item>
+  </div>
+  <div *ngIf="bookItems.length <= 0">
+    <li class="list-group-item">
+      <!-- Custom content-->
+      <div class="media align-items-lg-center flex-column flex-lg-row p-3">
+        <div class="media-body order-2 order-lg-1">
+          <h5 class="mt-0 font-weight-bold mb-2 text-center">
+            No items found in the list.
+          </h5>
+        </div>
+      </div> <!-- End -->
+    </li> <!-- End -->
+  </div>
 </section>
 </ul>

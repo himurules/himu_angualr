@@ -1,10 +1,11 @@
 <!-- Default form Book Item -->
 <form
   [formGroup]="form"
-  (ngSubmit)="onSubmit(form.value)"
-  class="text-center border border-light p-5" action="#!">
+  (ngSubmit)="onSubmit(form.value, action)"
+  class="text-center border border-light p-5 mt-4" action="#!">
+  <input type="hidden" name="id" id="id" />
 
-  <p class="h4 mb-4 text-white">Add a book item</p>
+  <p class="h4 mb-4 text-white">{{action | titlecase}} a book item</p>
 
   <!-- Book Title -->
   <input type="text" id="title" formControlName="title" aria-describedby="defaultTitleBlock" name="title" class="form-control mb-4" placeholder="Title" />
@@ -59,6 +60,6 @@
   </div>
 
   <!-- Sign up button -->
-  <button class="btn btn-info my-4 btn-block" type="submit" [disabled]="!form.valid">Add Book</button>
+  <button class="btn btn-info my-4 btn-block" type="submit" [disabled]="!form.valid">{{action | titlecase}} Book</button>
 </form>
 <!-- Default form Book Item -->

@@ -8,10 +8,14 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 export class BookItemComponent {
   @Input() bookItem;
   @Output() remove = new EventEmitter();
+  @Output() edit = new EventEmitter();
 
   onRemove() {
-    console.log('Remove Called');
     this.remove.emit(this.bookItem);
+  }
+
+  onEdit() {
+    this.edit.emit(this.bookItem);
   }
 
   numberToArray(n: number): number[] {

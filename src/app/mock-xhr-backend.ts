@@ -11,7 +11,7 @@ export class MockXHRBackend implements HttpBackend {
       rating: 5,
       isRead: true,
       category: 'Drama',
-      imgSrc: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/71tzslvoccl-1-1581952447.jpg?crop=1xw:1xh;center,top&resize=980:*',
+      imgSrc: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/71tzslvoccl-1-1581952447.jpg',
     },
     {
       id: 2,
@@ -21,7 +21,7 @@ export class MockXHRBackend implements HttpBackend {
       rating: 4,
       isRead: false,
       category: 'Reality',
-      imgSrc: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/71skcbutjwl-1581952158.jpg?crop=1xw:1xh;center,top&resize=980:*',
+      imgSrc: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/71skcbutjwl-1581952158.jpg',
     },
     {
       id: 3,
@@ -31,7 +31,7 @@ export class MockXHRBackend implements HttpBackend {
       rating: 5,
       isRead: true,
       category: 'Fiction',
-      imgSrc: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/9780241383100.jpg?crop=1xw:1xh;center,top&resize=980:*',
+      imgSrc: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/9780241383100.jpg',
     },
     {
       id: 4,
@@ -41,7 +41,7 @@ export class MockXHRBackend implements HttpBackend {
       rating: 3,
       isRead: true,
       category: 'Fiction',
-      imgSrc: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/71e7b2egnpl-1581951813.jpg?crop=1xw:1xh;center,top&resize=980:*',
+      imgSrc: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/71e7b2egnpl-1581951813.jpg',
     },
     {
       id: 5,
@@ -51,7 +51,7 @@ export class MockXHRBackend implements HttpBackend {
       rating: 5,
       isRead: false,
       category: 'Reality',
-      imgSrc: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/florida-lauren-groff-1520438945.jpg?crop=1xw:1xh;center,top&resize=980:*',
+      imgSrc: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/florida-lauren-groff-1520438945.jpg',
     },
     {
       id: 6,
@@ -61,7 +61,7 @@ export class MockXHRBackend implements HttpBackend {
       rating: 4,
       isRead: true,
       category: 'Drama',
-      imgSrc: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/there-are-little-kingdoms-paperback-cover-9781786890177.jpg?crop=1xw:1xh;center,top&resize=980:*',
+      imgSrc: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/there-are-little-kingdoms-paperback-cover-9781786890177.jpg',
     },
   ];
 
@@ -97,10 +97,16 @@ export class MockXHRBackend implements HttpBackend {
           }
           break;
         case 'POST':
-          const bookItem = request.body;
-          bookItem.id = this._getNewId();
-          this.bookItems.push(bookItem);
-          responseOptions = {status: 201};
+          if (request.url === 'edititem') {
+            const editItem = request.body;
+            this._editBookItem(editItem);
+            responseOptions = {status: 201};
+          } else {
+            const bookItem = request.body;
+            bookItem.id = this._getNewId();
+            this.bookItems.push(bookItem);
+            responseOptions = {status: 201};
+          }
           break;
         case 'DELETE':
           const id = parseInt(request.url.split('/')[1], 10);
@@ -114,6 +120,12 @@ export class MockXHRBackend implements HttpBackend {
       return () => {
       };
     });
+  }
+
+  _editBookItem(editItem){
+    const bookItem = this.bookItems.find(i => i.id === editItem.id);
+    const index = this.bookItems.indexOf(bookItem);
+    this.bookItems[index] = editItem;
   }
 
   _deleteBookItem(id) {

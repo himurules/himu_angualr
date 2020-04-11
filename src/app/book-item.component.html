@@ -17,7 +17,8 @@
         </ul>
       </div>
       <div>
-        <a href="#" (click)="onRemove()" class=" btn btn-danger">Remove From List</a>
+        <a (click)="onEdit()" class=" btn btn-danger mx-1 text-white">Edit Item</a>
+        <a (click)="onRemove()" class=" btn btn-danger mx-1 text-white">Remove From List</a>
       </div>
     </div>
     <img src="{{ bookItem.imgSrc }}" alt="{{ bookItem.title }}" width="200" class="ml-lg-5 order-1 order-lg-2">

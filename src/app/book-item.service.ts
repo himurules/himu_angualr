@@ -22,8 +22,25 @@ export class BookItemService{
       );
   }
 
+  getBook(id){
+    const getOptions = {
+      params: { }
+    };
+    return this.http.get<BookItem>('getBook/' + id, getOptions)
+      .pipe(map((response: BookItem) => {
+          return response;
+        }),
+        catchError(this.handleError)
+      );
+  }
+
   add(bookItem: BookItem) {
     return this.http.post('bookitems', bookItem)
+      .pipe(catchError(this.handleError));
+  }
+
+  edit(bookItem: BookItem) {
+    return this.http.post('edititem', bookItem)
       .pipe(catchError(this.handleError));
   }
 

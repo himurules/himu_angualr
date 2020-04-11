@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute} from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import { BookItemService, BookItem } from './book-item.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { BookItemService, BookItem } from './book-item.service';
 export class BookItemListComponent implements OnInit{
   category = '';
   bookItems: BookItem[];
-  constructor(private bookItemService: BookItemService, private activatedRoute: ActivatedRoute ) {
+  constructor(private bookItemService: BookItemService, private activatedRoute: ActivatedRoute, private router: Router ) {
   }
   ngOnInit(): void {
     this.activatedRoute.paramMap
@@ -28,6 +28,10 @@ export class BookItemListComponent implements OnInit{
       .subscribe(() => {
         this.getBookItems(this.category);
       });
+  }
+
+  onBookItemEdit(bookItem) {
+    this.router.navigate(['item/edit', bookItem.id]);
   }
 
   getBookItems(category){
